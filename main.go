@@ -3,17 +3,20 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/claraswan/cipherTool/ceasarcipher"
 	"os"
 	"strings"
+
+	"github.com/claraswan/cipherTool/ceasarcipher"
+	"github.com/claraswan/cipherTool/vigenerecipher"
 )
 
 func main() {
 	fmt.Println("Welcome to the ciper tool.")
-	fmt.Print("Type c to use ceaser cipher: ")
+	fmt.Print("Type c to use Ceaser cipher or v to use Vigenère cipher: ")
 
 	reader := bufio.NewReader(os.Stdin)
 	input, err := reader.ReadString('\n')
+
 	if err != nil {
 		fmt.Println("An error occurred")
 		return
@@ -21,9 +24,13 @@ func main() {
 
 	input = strings.TrimSuffix(input, "\n")
 	input = strings.ToLower(input)
-	if input != "c" {
+
+	if input == "c" {
+		ceasarcipher.Path(input)
+	} else if input == "c" {
+		vigenerecipher.Path(input)
+	} else {
 		fmt.Println("Response not accepted.")
 		return
 	}
-	ceasarcipher.ceasarCipherPath(input)
 }
