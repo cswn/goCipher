@@ -1,11 +1,21 @@
 package ceasarcipher
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
-func CeasarCipher(msg string, key string, encode bool) {
-	if encode == true {
-		fmt.Print("encoding", msg, key)
+func CeasarCipher(msg string, key string, encode bool) string {
+	if encode {
+		fmt.Println("encoding: ", msg)
+
+		encodedMsg := ""
+		msg = strings.ToLower(msg)
+		return encodedMsg
 	} else {
-		fmt.Print("decoding", msg, key)
+		fmt.Println("decoding: ", msg)
+
+		decodedMsg := ""
+		return decodedMsg
 	}
 }

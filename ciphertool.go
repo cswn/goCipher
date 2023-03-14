@@ -27,7 +27,7 @@ func main() {
 
 	if input == "c" {
 		ceasarcipher.Path(input)
-	} else if input == "c" {
+	} else if input == "v" {
 		vigenerecipher.Path(input)
 	} else {
 		fmt.Println("Response not accepted.")

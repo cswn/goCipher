@@ -30,25 +30,25 @@ func Path(input string) {
 		return
 	}
 
-	// // key
-	// fmt.Print("Type your key (number) > ")
-	// reader := bufio.NewReader(os.Stdin)
-	// key, err := reader.ReadString('\n')
-	// if err != nil {
-	// 	fmt.Println("An error occurred")
-	// 	return
-	// }
-	// key = strings.TrimSuffix(key, "\n")
+	// key
+	fmt.Print("Type your key (number) > ")
+	keyReader := bufio.NewReader(os.Stdin)
+	key, err := keyReader.ReadString('\n')
+	if err != nil {
+		fmt.Println("An error occurred")
+		return
+	}
+	key = strings.TrimSuffix(key, "\n")
 
-	// // message
-	// fmt.Print("Type your message > ")
-	// reader := bufio.NewReader(os.Stdin)
-	// msg, err := reader.ReadString('\n')
-	// if err != nil {
-	// 	fmt.Println("An error occurred")
-	// 	return
-	// }
-	// msg = strings.TrimSuffix(msg, "\n")
+	// message
+	fmt.Print("Type your message > ")
+	msgReader := bufio.NewReader(os.Stdin)
+	msg, err := msgReader.ReadString('\n')
+	if err != nil {
+		fmt.Println("An error occurred")
+		return
+	}
+	msg = strings.TrimSuffix(msg, "\n")
 
-	CeasarCipher("hi", "5", encodeChoice)
+	CeasarCipher(msg, key, encodeChoice)
 }

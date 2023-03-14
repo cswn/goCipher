@@ -1,3 +1,3 @@
-module github.com/claraswan/cipherTool/main
+module github.com/claraswan/cipherTool
 
 go 1.20
