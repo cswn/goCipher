@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -33,12 +34,13 @@ func Path(input string) {
 	// key
 	fmt.Print("Type your key (number) > ")
 	keyReader := bufio.NewReader(os.Stdin)
-	key, err := keyReader.ReadString('\n')
+	stringKey, err := keyReader.ReadString('\n')
 	if err != nil {
 		fmt.Println("An error occurred")
 		return
 	}
-	key = strings.TrimSuffix(key, "\n")
+	stringKey = strings.TrimSuffix(stringKey, "\n")
+	intKey, _ := strconv.ParseInt(stringKey, 10, 64)
 
 	// message
 	fmt.Print("Type your message > ")
@@ -50,5 +52,5 @@ func Path(input string) {
 	}
 	msg = strings.TrimSuffix(msg, "\n")
 
-	CeasarCipher(msg, key, encodeChoice)
+	CeasarCipher(msg, intKey, encodeChoice)
 }
