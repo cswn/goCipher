@@ -6,39 +6,28 @@ import (
 	"unicode"
 )
 
-func CeasarCipher(msg string, key int64, encode bool) {
-	var alphabet = [26]string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
+func ShiftText(plainText string, shift int) {
+	cipherText := ""
+	plainText = strings.ToLower(plainText)
 
-	if encode {
-		encodedMsg := ""
-		msg = strings.ToLower(msg)
-
-		for _, letter := range msg {
-			if unicode.IsLetter(letter) {
-				indexInAlphabet := indexOf(string(letter), alphabet[:])
-				bigIndex := (int64(indexInAlphabet) + key) % 26
-				newLetter := alphabet[bigIndex]
-				encodedMsg += newLetter
-			} else {
-				encodedMsg += string(letter)
-			}
+	for _, letter := range plainText {
+		//fmt.Println(int(letter))
+		if !unicode.IsLetter(letter) {
+			cipherText += string(letter)
+		} else {
+			newutf8 := (int(letter) + (shift % 26))
+			fmt.Println(rune(newutf8))
+			cipherText += string(rune(newutf8))
 		}
-
-		fmt.Println(encodedMsg)
-
-	} else {
-		fmt.Println("decoding: ", msg)
-
-		decodedMsg := ""
-		fmt.Println(decodedMsg)
 	}
+
+	fmt.Println(cipherText)
 }
 
-func indexOf(word string, data []string) int {
-	for k, v := range data {
-		if word == v {
-			return k
-		}
-	}
-	return -1
+func Encode(plainText string, shift int) {
+	ShiftText(plainText, shift)
+}
+
+func Decode(plainText string, shift int) {
+	ShiftText(plainText, -shift)
 }

@@ -2,6 +2,7 @@ package ceasarcipher
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -14,7 +15,9 @@ func Path(input string) {
 
 	reader := bufio.NewReader(os.Stdin)
 
-	fmt.Print("Type 'e' for encode and 'd' for decode > ")
+	fmt.Println("Would you like to encode or decode a message?")
+	fmt.Println("[ e ] encode")
+	fmt.Println("[ d ] decode")
 
 	encodeChoiceInput, err := reader.ReadString('\n')
 	if err != nil {
@@ -40,17 +43,24 @@ func Path(input string) {
 		return
 	}
 	stringKey = strings.TrimSuffix(stringKey, "\n")
-	intKey, _ := strconv.ParseInt(stringKey, 10, 64)
+	intKey, err := strconv.Atoi(stringKey)
+	if err != nil {
+		panic(errors.New("that wasn't a number"))
+	}
 
 	// message
 	fmt.Print("Type your message > ")
-	msgReader := bufio.NewReader(os.Stdin)
-	msg, err := msgReader.ReadString('\n')
+	plainTextReader := bufio.NewReader(os.Stdin)
+	plainText, err := plainTextReader.ReadString('\n')
 	if err != nil {
 		fmt.Println("An error occurred")
 		return
 	}
-	msg = strings.TrimSuffix(msg, "\n")
+	plainText = strings.TrimSuffix(plainText, "\n")
 
-	CeasarCipher(msg, intKey, encodeChoice)
+	if !encodeChoice {
+		Decode(plainText, intKey)
+	} else if encodeChoice {
+		Encode(plainText, intKey)
+	}
 }

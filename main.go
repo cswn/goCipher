@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 	"strings"
@@ -12,14 +13,15 @@ import (
 
 func main() {
 	fmt.Println("Welcome to the ciper tool.")
-	fmt.Print("Type c to use Ceaser cipher or v to use Vigenère cipher: ")
+	fmt.Println("Choose which cipher you'd like to use:")
+	fmt.Println("[ c ] Ceasar cipher")
+	fmt.Println("[ v ] Vigenere cipher")
 
 	reader := bufio.NewReader(os.Stdin)
 	input, err := reader.ReadString('\n')
 
 	if err != nil {
-		fmt.Println("An error occurred")
-		return
+		panic(errors.New("a read error occurred"))
 	}
 
 	input = strings.TrimSuffix(input, "\n")
