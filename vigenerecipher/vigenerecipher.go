@@ -3,7 +3,7 @@ package vigenerecipher
 import "fmt"
 
 func VigenereCipher(msg string, key string, encode bool) {
-	if encode == true {
+	if encode {
 		fmt.Print("encoding", msg, key)
 	} else {
 		fmt.Print("decoding", msg, key)

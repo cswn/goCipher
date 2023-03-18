@@ -28,9 +28,9 @@ func main() {
 	input = strings.ToLower(input)
 
 	if input == "c" {
-		ceasarcipher.Path(input)
+		ceasarcipher.Path()
 	} else if input == "v" {
-		vigenerecipher.Path(input)
+		vigenerecipher.Path()
 	} else {
 		fmt.Println("Response not accepted.")
 		return

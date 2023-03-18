@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func Path(input string) {
+func Path() {
 	// encode or decode
 	var encodeChoice bool
 
@@ -21,8 +21,7 @@ func Path(input string) {
 
 	encodeChoiceInput, err := reader.ReadString('\n')
 	if err != nil {
-		fmt.Println("An error occurred")
-		return
+		panic(errors.New("an error occured while reading your input"))
 	}
 	encodeChoiceInput = strings.TrimSuffix(encodeChoiceInput, "\n")
 	if encodeChoiceInput == "d" {
@@ -39,8 +38,7 @@ func Path(input string) {
 	keyReader := bufio.NewReader(os.Stdin)
 	stringKey, err := keyReader.ReadString('\n')
 	if err != nil {
-		fmt.Println("An error occurred")
-		return
+		panic(errors.New("an error occured while reading your input"))
 	}
 	stringKey = strings.TrimSuffix(stringKey, "\n")
 	intKey, err := strconv.Atoi(stringKey)
@@ -53,8 +51,7 @@ func Path(input string) {
 	plainTextReader := bufio.NewReader(os.Stdin)
 	plainText, err := plainTextReader.ReadString('\n')
 	if err != nil {
-		fmt.Println("An error occurred")
-		return
+		panic(errors.New("an error occured while reading your input"))
 	}
 	plainText = strings.TrimSuffix(plainText, "\n")
 
@@ -63,4 +60,29 @@ func Path(input string) {
 	} else if encodeChoice {
 		Encode(plainText, intKey)
 	}
+}
+
+func ContinuePath() {
+	fmt.Print("Do you want to en/decode another message? y/n > ")
+	continueReader := bufio.NewReader(os.Stdin)
+	continu, err := continueReader.ReadString('\n')
+	if err != nil {
+		fmt.Println("An error occured")
+		return
+	}
+	continu = strings.TrimSuffix(continu, "\n")
+	continu = strings.ToLower(continu)
+
+	if continu == "y" {
+		Path()
+	} else if continu == "n" {
+		fmt.Println("Ok, bye!")
+		return
+	} else {
+		ContinuePath()
+		fmt.Println("Please choose either 'y' or 'n'")
+		return
+		// call continuePath again?
+	}
+
 }
