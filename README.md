@@ -7,6 +7,6 @@ To use the tool, just run the following commands:
 
 `git clone git@github.com:claraswan/cipherTool.git`
 
-`cd cipherTools/`
+`cd cipherTool/`
 
 `./cipherTool`
