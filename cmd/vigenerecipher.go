@@ -1,4 +1,4 @@
-package vigenerecipher
+package cmd
 
 import "fmt"
 

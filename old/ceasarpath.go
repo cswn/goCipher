@@ -1,4 +1,4 @@
-package ceasarcipher
+package old
 
 import (
 	"bufio"
@@ -79,10 +79,9 @@ func ContinuePath() {
 		fmt.Println("Ok, bye!")
 		return
 	} else {
+		fmt.Println("Please choose either 'y' or 'n'.")
 		ContinuePath()
-		fmt.Println("Please choose either 'y' or 'n'")
 		return
-		// call continuePath again?
 	}
 
 }
