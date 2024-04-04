@@ -61,7 +61,6 @@ func Main() {
 				fmt.Fprintf(os.Stderr, color.InRed("There was an error: %s\n"), err.Error())
 				os.Exit(1)
 			}
-
 			cmd.Run(args)
 			return
 		}

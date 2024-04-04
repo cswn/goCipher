@@ -29,6 +29,7 @@ func (cmd *CeasarSubCommand) Description() string {
 
 func (cmd *CeasarSubCommand) Run(args []string) {
 	// todo if no message was passed, return an error and print usage
+
 	newMsg := ShiftText(cmd.message, cmd.decode, cmd.key)
 	encodedOrDecoded := "encoded"
 	if cmd.decode {
@@ -44,22 +45,27 @@ func ShiftText(plainText string, decode bool, shiftKey int64) string {
 
 	cipherText := ""
 	plainText = strings.ToLower(plainText)
+	var codePointA int64 = 97
+	var codePointZ int64 = 122
 
+	// a for range loop decodes one UTF-8-encoded rune on each iteration
 	for _, letter := range plainText {
 		if !unicode.IsLetter(letter) {
 			cipherText += string(letter)
 		} else {
-			var newPos int64
+			// normalize the key to shift by (should be under 26)
+			shiftKey = shiftKey % 26
+			var newCodePoint int64 = int64(letter) + shiftKey
 
-			if (int64(letter) + shiftKey) > 122 {
-				newPos = (97 + (shiftKey % 26))
-			} else if (int64(letter) + shiftKey) < 97 {
-				newPos = (122 + (shiftKey % 26))
-			} else {
-				newPos = (int64(letter) + (shiftKey % 26))
+			// if the letter's position added to the key goes past the code point for 'z' or 'a',
+			// capture the difference between them and redirect it to the beginning or end of alphabet
+			if newCodePoint > codePointZ {
+				newCodePoint = codePointA + (newCodePoint - codePointZ) - 1
+			} else if newCodePoint < codePointA {
+				newCodePoint = codePointZ - (codePointA - newCodePoint) + 1
 			}
 
-			cipherText += string(rune(newPos))
+			cipherText += string(rune(newCodePoint))
 		}
 	}
 

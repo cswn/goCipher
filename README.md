@@ -1,7 +1,7 @@
 ### Cipher Tool
 
 A fun command-line tool that encodes and decodes messages with ciphers.
-So far, only the ceaser cipher option works-- more ciphers to come.
+So far, only the ceasar cipher option works-- more ciphers to come.
 
 To use the tool, just run the following commands:
 
