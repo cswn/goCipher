@@ -3,8 +3,11 @@ package cmd
 import (
 	"flag"
 	"fmt"
+	"os"
 	"strings"
 	"unicode"
+
+	"github.com/TwiN/go-color"
 )
 
 type CeasarSubCommand struct {
@@ -29,6 +32,10 @@ func (cmd *CeasarSubCommand) Description() string {
 
 func (cmd *CeasarSubCommand) Run(args []string) {
 	// todo if no message was passed, return an error and print usage
+	if cmd.message == "" {
+		fmt.Fprint(os.Stderr, color.Ize(color.Red, "Please make sure to pass a message. \n"))
+		return
+	}
 
 	newMsg := ShiftText(cmd.message, cmd.decode, cmd.key)
 	encodedOrDecoded := "encoded"
