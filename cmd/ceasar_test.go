@@ -2,11 +2,6 @@ package cmd
 
 import "testing"
 
-//var testDataMap map[int][]string
-
-// hashmap including input, key, expected output
-// then iterate over the map using the values in each test case
-
 type testData struct {
 	key            int64
 	input          string

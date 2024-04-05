@@ -27,7 +27,7 @@ func (cmd *CeasarSubCommand) Flags(flagSet *flag.FlagSet) {
 }
 
 func (cmd *CeasarSubCommand) Description() string {
-	return "the famous ceasar cipher, where messages are decoded by shifting the letters along the alphabet according to a key"
+	return "the famous ceasar cipher, where messages are encrypted by shifting the letters along the alphabet according to a key"
 }
 
 func (cmd *CeasarSubCommand) Run(args []string) {
