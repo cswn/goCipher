@@ -23,13 +23,13 @@ func init() {
 }
 
 func usageForSubCommand(subcommand SubCommand) string {
-	usage := "  - " + (color.Ize(color.Blue, subcommand.Name()))
+	usage := "  - " + (color.InBlue(subcommand.Name()))
 	usage += fmt.Sprintf("\n      %s\n", subcommand.Description())
 	return usage
 }
 
 func usage() string {
-	usage := "CipherTools is a command line tool for encoding and decoding fun secret messages.\n"
+	usage := "goCipher is a command line tool for encoding and decoding fun secret messages.\n"
 	usage += "Available commands:\n"
 	for _, subcommand := range subcommands {
 		usage += usageForSubCommand(subcommand)
@@ -67,6 +67,6 @@ func Main() {
 		}
 	}
 
-	fmt.Fprintln(os.Stderr, color.Ize(color.Red, "You must provide a valid subcommand.\n"))
+	fmt.Fprintln(os.Stderr, color.InRed("You must provide a valid subcommand.\n"))
 	fmt.Fprintf(os.Stderr, "%s\n", usage())
 }

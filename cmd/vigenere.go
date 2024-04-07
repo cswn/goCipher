@@ -52,11 +52,11 @@ func (cmd *VigenereSubCommand) Run(args []string) {
 }
 
 func ShiftTextByKeyword(plainText string, decode bool, key string) string {
-	var runeCountPlainText = runeCountInStringLettersOnly(plainText)
+	var runeCountPlainText = RuneCountInStringLettersOnly(plainText)
 
 	// remove whitespaces and non-letter runes from the key
 	key = strings.ReplaceAll(key, " ", "")
-	key = filterString(key, func(e rune) bool {
+	key = FilterString(key, func(e rune) bool {
 		return unicode.IsLetter(e)
 	})
 
@@ -68,10 +68,9 @@ func ShiftTextByKeyword(plainText string, decode bool, key string) string {
 
 	// call ShiftText except "shiftKey" is the rune number of each letter
 	var message string
-	var codePointA int64 = 97
 	var adjustedIndex int = 0
 	for _, letter := range plainText {
-		letterKey := lengthAdjustedKey[adjustedIndex] - byte(codePointA)
+		letterKey := lengthAdjustedKey[adjustedIndex] - byte(CODE_POINT_A)
 
 		if !unicode.IsLetter(letter) { // make sure the next letter in the key is used and not skipped over in case of a non-letter
 			message += string(letter)
