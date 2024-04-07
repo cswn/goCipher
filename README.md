@@ -1,3 +1,5 @@
+![workflow status](https://github.com/cswn/ciphertool/actions/workflows/go.yml/badge.svg)
+
 # Cipher Tool
 
 A fun command-line tool written in Go that encodes and decodes messages using various ciphers.
