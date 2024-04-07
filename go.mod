@@ -1,4 +1,4 @@
-module github.com/cswn/cipherTool
+module github.com/cswn/goCipher
 
 go 1.20
 

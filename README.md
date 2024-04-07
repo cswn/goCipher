@@ -1,6 +1,6 @@
-![workflow status](https://github.com/cswn/ciphertool/actions/workflows/go.yml/badge.svg)
+![workflow status](https://github.com/cswn/goCipher/actions/workflows/go.yml/badge.svg)
 
-# Cipher Tool
+# goCipher
 
 A fun command-line tool written in Go that encodes and decodes messages using various ciphers.
 
@@ -10,19 +10,19 @@ To use the tool, you can either download the source code or use the built execut
 
 ### Executable
 
-Clone the repo: `git clone git@github.com:cswn/cipherTool.git`
+Clone the repo: `git clone git@github.com:cswn/goCipher.git`
 
-Enter the directory: `cd cipherTool/`
+Enter the directory: `cd goCipher/`
 
-Execute the tool: `./cipherTool {subcommand} [ARGUMENTS]` -> see Usage
+Execute the tool: `./goCipher {subcommand} [ARGUMENTS]` -> see Usage
 
 ### Source
 
 You must have [installed Go](https://go.dev/doc/install) locally to use the tool this way.
 
-`git clone git@github.com:cswn/cipherTool.git`
+`git clone git@github.com:cswn/goCipher.git`
 
-`cd cipherTool/`
+`cd goCipher/`
 
 `go run main.go {subcommand} [ARGUMENTS]` -> see Usage
 
@@ -35,7 +35,7 @@ The famous Ceasar cipher, one of the most well-known and simplest encryption tec
 Usage:
 
 ```shell
-./cipherTool ceasar -m "my secret message" -k 17
+./goCipher ceasar -m "my secret message" -k 17
 ```
 
 Arguments:
@@ -51,7 +51,7 @@ The classic Vigenère cipher, invented by Giovan Battista Bellaso in 1553 but mi
 Usage:
 
 ```shell
-./cipherTool vigenere -m "my secret message" -k "lorem ipsum"
+./goCipher vigenere -m "my secret message" -k "lorem ipsum"
 ```
 
 Arguments:

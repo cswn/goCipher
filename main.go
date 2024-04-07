@@ -1,7 +1,7 @@
 package main
 
-import cipherTool "github.com/cswn/cipherTool/cmd"
+import goCipher "github.com/cswn/goCipher/cmd"
 
 func main() {
-	cipherTool.Main()
+	goCipher.Main()
 }
