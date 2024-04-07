@@ -19,6 +19,7 @@ var subcommands []SubCommand
 
 func init() {
 	subcommands = append(subcommands, &CeasarSubCommand{})
+	subcommands = append(subcommands, &VigenereSubCommand{})
 }
 
 func usageForSubCommand(subcommand SubCommand) string {

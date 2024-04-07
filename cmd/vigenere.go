@@ -4,6 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strings"
+	"unicode"
+	"unicode/utf8"
 
 	"github.com/TwiN/go-color"
 )
@@ -48,6 +51,37 @@ func (cmd *VigenereSubCommand) Run(args []string) {
 	fmt.Printf("Your %s message is: %s \n", encodedOrDecoded, newMsg)
 }
 
-func ShiftTextByKeyword(message string, decode bool, key string) string {
+func ShiftTextByKeyword(plainText string, decode bool, key string) string {
+	var runeCountPlainText = runeCountInStringLettersOnly(plainText)
 
+	// remove whitespaces and non-letter runes from the key
+	key = strings.ReplaceAll(key, " ", "")
+	key = filterString(key, func(e rune) bool {
+		return unicode.IsLetter(e)
+	})
+
+	// pad the the key string so that it's longer than plaintext
+	var lengthAdjustedKey string
+	for runeCountPlainText > utf8.RuneCountInString(lengthAdjustedKey) {
+		lengthAdjustedKey += key
+	}
+
+	// call ShiftText except "shiftKey" is the rune number of each letter
+	var message string
+	var codePointA int64 = 97
+	var adjustedIndex int = 0
+	for _, letter := range plainText {
+		letterKey := lengthAdjustedKey[adjustedIndex] - byte(codePointA)
+
+		if !unicode.IsLetter(letter) { // make sure the next letter in the key is used and not skipped over in case of a non-letter
+			message += string(letter)
+			adjustedIndex = adjustedIndex - 1
+		} else {
+			message += ShiftText(string(letter), decode, int64(letterKey))
+		}
+
+		adjustedIndex++
+	}
+
+	return message
 }

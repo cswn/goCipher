@@ -55,12 +55,12 @@ func ShiftText(plainText string, decode bool, shiftKey int64) string {
 	var codePointA int64 = 97
 	var codePointZ int64 = 122
 
-	// a for range loop decodes one UTF-8-encoded rune on each iteration
+	// a 'for range' loop decodes one UTF-8-encoded rune on each iteration
 	for _, letter := range plainText {
 		if !unicode.IsLetter(letter) {
 			cipherText += string(letter)
 		} else {
-			// normalize the key to shift by (should be under 26)
+			// normalize the key to shift by w/ modulo 26
 			shiftKey = shiftKey % 26
 			var newCodePoint int64 = int64(letter) + shiftKey
 

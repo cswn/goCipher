@@ -2,13 +2,13 @@ package cmd
 
 import "testing"
 
-type testData struct {
+type testDataCeasar struct {
 	key            int64
 	input          string
 	expectedOutput string
 }
 
-var testDataMap = []testData{
+var testDataCeasarMap = []testDataCeasar{
 	{
 		key:            2,
 		input:          "test string",
@@ -47,7 +47,7 @@ var testDataMap = []testData{
 }
 
 func TestShiftTextEncode(t *testing.T) {
-	for _, val := range testDataMap {
+	for _, val := range testDataCeasarMap {
 		msg := ShiftText(val.input, false, val.key)
 		if msg != val.expectedOutput {
 			t.Fatalf(`encode ShiftText("%v") returned %q, should have been "%v"`, val.input, msg, val.expectedOutput)
@@ -56,7 +56,7 @@ func TestShiftTextEncode(t *testing.T) {
 }
 
 func TestShiftTextDecode(t *testing.T) {
-	for _, val := range testDataMap {
+	for _, val := range testDataCeasarMap {
 		msg := ShiftText(val.expectedOutput, true, val.key)
 		if msg != val.input {
 			t.Fatalf(`decode ShiftText("%v") returned %q, should have been "%v"`, val.expectedOutput, msg, val.input)
