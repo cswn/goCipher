@@ -41,7 +41,7 @@ func Main() {
 	args := os.Args
 
 	if len(args) == 1 {
-		fmt.Fprintln(os.Stderr, color.Ize(color.Red, "You must provide a valid subcommand.\n"))
+		fmt.Fprintln(os.Stderr, color.InRed("You must provide a valid subcommand.\n"))
 		fmt.Fprintf(os.Stderr, "%s\n", usage())
 		return
 	}

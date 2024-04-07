@@ -16,8 +16,8 @@ var testDataCeasarMap = []testDataCeasar{
 	},
 	{
 		key:            4,
-		input:          "lorem ipsum",
-		expectedOutput: "psviq mtwyq",
+		input:          "lorem! ipsum",
+		expectedOutput: "psviq! mtwyq",
 	},
 	{
 		key:            8,
