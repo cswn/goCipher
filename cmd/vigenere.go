@@ -31,7 +31,7 @@ func (cmd *VigenereSubCommand) Description() string {
 	return "the classic Vigenère cipher, where messages are encrypted using a secret key and a tabula recta"
 }
 
-func (cmd *VigenereSubCommand) Run(args []string) {
+func (cmd *VigenereSubCommand) Run() {
 	// todo if no message was passed, return an error and print usage
 	if cmd.message == "" {
 		fmt.Fprint(os.Stderr, color.Ize(color.Red, "Please make sure to pass a message. \n"))

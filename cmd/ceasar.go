@@ -30,7 +30,7 @@ func (cmd *CeasarSubCommand) Description() string {
 	return "the famous ceasar cipher, where messages are encrypted by shifting the letters along the alphabet according to a key"
 }
 
-func (cmd *CeasarSubCommand) Run(args []string) {
+func (cmd *CeasarSubCommand) Run() {
 	if cmd.message == "" {
 		fmt.Fprint(os.Stderr, color.Ize(color.Red, "Please make sure to pass a message. \n"))
 		return

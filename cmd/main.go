@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -12,14 +13,14 @@ type SubCommand interface {
 	Name() string
 	Flags(*flag.FlagSet)
 	Description() string
-	Run([]string)
+	Run()
 }
 
-var subcommands []SubCommand
+var subcommands map[string]SubCommand = make(map[string]SubCommand)
 
 func init() {
-	subcommands = append(subcommands, &CeasarSubCommand{})
-	subcommands = append(subcommands, &VigenereSubCommand{})
+	subcommands["ceasar"] = &CeasarSubCommand{}
+	subcommands["vigenere"] = &VigenereSubCommand{}
 }
 
 func usageForSubCommand(subcommand SubCommand) string {
@@ -37,36 +38,35 @@ func usage() string {
 	return usage
 }
 
-func Main() {
+func Main() error {
 	args := os.Args
 
 	if len(args) == 1 {
-		fmt.Fprintln(os.Stderr, color.InRed("You must provide a valid subcommand.\n"))
 		fmt.Fprintf(os.Stderr, "%s\n", usage())
-		return
+		return errors.New(color.InRed("You must provide a valid subcommand.\n"))
 	}
 
 	subcommand := args[1]
 
 	if subcommand == "help" {
 		fmt.Fprintf(os.Stderr, "%s\n", usage())
-		return
+		return nil
 	}
 
-	for _, cmd := range subcommands {
-		if cmd.Name() == subcommand {
-			flagSet := flag.NewFlagSet(cmd.Name(), flag.ExitOnError)
-			cmd.Flags(flagSet)
-			err := flagSet.Parse(args[2:])
-			if err != nil {
-				fmt.Fprintf(os.Stderr, color.InRed("There was an error: %s\n"), err.Error())
-				os.Exit(1)
-			}
-			cmd.Run(args)
-			return
-		}
+	cmd, ok := subcommands[subcommand]
+	if !ok {
+		fmt.Fprintf(os.Stderr, "%s\n", usage())
+		return errors.New(color.InRed("You must provide a valid subcommand.\n"))
 	}
 
-	fmt.Fprintln(os.Stderr, color.InRed("You must provide a valid subcommand.\n"))
-	fmt.Fprintf(os.Stderr, "%s\n", usage())
+	flagSet := flag.NewFlagSet(cmd.Name(), flag.ExitOnError)
+	cmd.Flags(flagSet)
+	err := flagSet.Parse(args[2:])
+	if err != nil {
+		return errors.New(color.InRed("There was an error: " + err.Error() + "\n"))
+	}
+
+	cmd.Run()
+
+	return nil
 }
