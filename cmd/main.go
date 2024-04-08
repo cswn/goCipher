@@ -24,7 +24,7 @@ func init() {
 }
 
 func usageForSubCommand(subcommand SubCommand) string {
-	usage := "  - " + (color.InBlue(subcommand.Name()))
+	usage := "    " + (color.InBlue(subcommand.Name()))
 	usage += fmt.Sprintf("\n      %s\n", subcommand.Description())
 	return usage
 }
