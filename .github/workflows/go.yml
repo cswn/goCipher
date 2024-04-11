@@ -27,4 +27,4 @@ jobs:
         run: sudo apt install bats
 
       - name: Run Unit Tests
-        run: bats .tests/bats_test.sh
+        run: bats ./tests/bats_test.sh
