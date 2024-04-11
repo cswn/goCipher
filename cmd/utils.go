@@ -9,6 +9,7 @@ const (
 	CODE_POINT_Z = 122
 )
 
+// FilterString filters a string rune by rune using a callback function.
 func FilterString(str string, callback func(rune) bool) string {
 	var filtered = ""
 
@@ -21,12 +22,15 @@ func FilterString(str string, callback func(rune) bool) string {
 	return filtered
 }
 
+// RuneCountInStringLettersOnly counts the number of runes in a string that are letters.
 func RuneCountInStringLettersOnly(text string) int {
-	totalRuneCount := 0
+	var totalRuneCount = 0
+
 	for _, letter := range text {
 		if unicode.IsLetter(letter) {
 			totalRuneCount++
 		}
 	}
+
 	return totalRuneCount
 }

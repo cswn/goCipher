@@ -44,6 +44,8 @@ func (cmd *CeasarSubCommand) Run() {
 	fmt.Printf("Your %s message is: %s \n", encodedOrDecoded, newMsg)
 }
 
+// ShiftText takes plaintext and "shifts" it across the 26-letter alphabet, either to the right or to the left, with
+// number of steps shifted according to the shiftKey.
 func ShiftText(plainText string, decode bool, shiftKey int64) string {
 	if decode {
 		shiftKey = -shiftKey

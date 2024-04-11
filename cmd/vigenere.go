@@ -51,6 +51,10 @@ func (cmd *VigenereSubCommand) Run() {
 	fmt.Printf("Your %s message is: %s \n", encodedOrDecoded, newMsg)
 }
 
+// ShiftTextByKeyword takes plaintext and "shifts" each letter separately, according to the position in the alphabet
+// of the letter in the key which has the same index as the current plaintext letter.
+// To ensure the key is long enough to provide this for each letter of the plaintext, it is padded by repeating itself until it
+// is at least the length of the plaintext string.
 func ShiftTextByKeyword(plainText string, decode bool, key string) string {
 	var runeCountPlainText = RuneCountInStringLettersOnly(plainText)
 

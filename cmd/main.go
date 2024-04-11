@@ -9,6 +9,7 @@ import (
 	"github.com/TwiN/go-color"
 )
 
+// SubCommand represents the behavior that all subcommands must implement.
 type SubCommand interface {
 	Name() string
 	Flags(*flag.FlagSet)
@@ -43,7 +44,7 @@ func Main() error {
 
 	if len(args) == 1 {
 		fmt.Fprintf(os.Stderr, "%s\n", usage())
-		return errors.New(color.InRed("You must provide a valid subcommand.\n"))
+		return errors.New(color.InRed("you must provide a valid subcommand"))
 	}
 
 	subcommand := args[1]
@@ -56,14 +57,14 @@ func Main() error {
 	cmd, ok := subcommands[subcommand]
 	if !ok {
 		fmt.Fprintf(os.Stderr, "%s\n", usage())
-		return errors.New(color.InRed("You must provide a valid subcommand.\n"))
+		return errors.New(color.InRed("you must provide a valid subcommand"))
 	}
 
 	flagSet := flag.NewFlagSet(cmd.Name(), flag.ExitOnError)
 	cmd.Flags(flagSet)
 	err := flagSet.Parse(args[2:])
 	if err != nil {
-		return errors.New(color.InRed("There was an error: " + err.Error() + "\n"))
+		return errors.New(color.InRed("there was an error: " + err.Error()))
 	}
 
 	cmd.Run()

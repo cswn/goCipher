@@ -1,3 +1,19 @@
+/*
+GoCipher en- and decrypts messages using simple, common ciphers over the command line.
+It is meant for personal and for-fun use only.
+Usage:
+
+	goCipher [subcommand] [arguments]
+
+Subcommands are:
+
+	ceasar
+		The famous ceasar cipher, a simple alphabetic shift cipher.
+	vigenere
+		The classic Vigenère cipher, a polyalphabetic cipher that used a key and a tabula recta.
+
+If you choose to run the subcommand without its required arguments, the default values will be taken.
+*/
 package main
 
 import (
@@ -10,7 +26,7 @@ import (
 func main() {
 	err := goCipher.Main()
 	if err != nil {
-		fmt.Printf("%s", err.Error())
+		fmt.Printf("%s\n", err.Error())
 		os.Exit(1)
 	}
 
