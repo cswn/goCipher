@@ -8,6 +8,7 @@ import (
 	"unicode"
 
 	"github.com/TwiN/go-color"
+	"gonum.org/v1/gonum/mat"
 )
 
 type PlayfairSubCommand struct {
@@ -16,7 +17,7 @@ type PlayfairSubCommand struct {
 	key     string
 }
 
-type KeyTable map[int]rune
+type KeyTable [5][5]rune
 
 func (cmd *PlayfairSubCommand) Name() string {
 	return "playfair"
@@ -69,12 +70,15 @@ func ShiftTextByDigraph(plainText string, decode bool, key string) string {
 }
 
 func generateKeyTable(key string, keyLength int) KeyTable {
-	kt := make(KeyTable, 25)
+	kt := mat.NewDense(5, 5, nil)
 
 	// add letters of the key to keytable first
-	for i, r := range key {
-		kt[i] = r
+	//for i := 0; i < 6; i++ {
+	//kt[i] = make([]rune, 5)
+	for j, r := range key {
+		kt.Set()
 	}
+	//}
 
 	// then fill the rest of the table with the letters of alphabet in order
 	maxCodePoint := CODE_POINT_A + (26 - (keyLength % 26))
@@ -107,13 +111,27 @@ func preparePlainText(plainText string) []rune {
 
 func searchForDigraphInKeyTable(kt KeyTable, a rune, b rune) [4]int {
 	var result [4]int
-	// var i int
-	// var j int
+	var i int
+	var j int
 
 	if a == 'j' {
 		a = CODE_POINT_I
 	} else if b == 'j' {
 		b = CODE_POINT_I
+	}
+
+	// go through rows
+	for i = 0; i < 5; i++ {
+		// go through columns
+		for j = 0; j < 5; j++ {
+			if kt[i][j] == a {
+				result[0] = i
+				result[1] = j
+			} else if kt[i][j] == b {
+				result[2] = i
+				result[3] = j
+			}
+		}
 	}
 
 	return result
@@ -122,9 +140,7 @@ func searchForDigraphInKeyTable(kt KeyTable, a rune, b rune) [4]int {
 func encrypt(msg []rune, kt KeyTable, messageLength int) string {
 	for i := 0; i < messageLength; i += 2 {
 		digraphRectangle := searchForDigraphInKeyTable(kt, msg[i], msg[i+1])
-		fmt.Println("digraphRectangle: %v", digraphRectangle)
-		fmt.Println("msg[i]: %v", msg[i])
-		fmt.Println("msg[i+1]: %v", msg[i+1])
+		fmt.Println("digraphRectangle:", digraphRectangle)
 	}
 
 	return "hi"
