@@ -32,7 +32,6 @@ func (cmd *VigenereSubCommand) Description() string {
 }
 
 func (cmd *VigenereSubCommand) Run() {
-	// todo if no message was passed, return an error and print usage
 	if cmd.message == "" {
 		fmt.Fprint(os.Stderr, color.Ize(color.Red, "Please make sure to pass a message. \n"))
 		return
