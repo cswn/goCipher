@@ -147,6 +147,10 @@ func generateKeyTable(key string, keyLength int) KeyTable {
 }
 
 func preparePlainText(plainText string) []rune {
+	// make sure no two same letters would be in the same digraph
+	// todo
+
+	// pad the plaintext if it has an odd number of letters with a z
 	if len(plainText)%2 != 0 {
 		plainText += "z"
 	}
@@ -193,6 +197,13 @@ func encrypt(msg []rune, kt KeyTable, messageLength int) string {
 		digraphRectangle := searchForDigraphInKeyTable(kt, msg[i], msg[i+1])
 		fmt.Println("digraphRectangle:", digraphRectangle)
 	}
+
+	// rules for encryption
+	// If both the letters are in the same column:
+	// Take the letter below each one (going back to the top if at the bottom).
+	// If both the letters are in the same row:
+	// Take the letter to the right of each one (going back to the leftmost if at the rightmost position).
+	// else, form a rectangle with the two letters and take the letters on the horizontal opposite corner of the rectangle.
 
 	return "hi"
 }
