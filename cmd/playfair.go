@@ -8,7 +8,6 @@ import (
 	"unicode"
 
 	"github.com/TwiN/go-color"
-	"gonum.org/v1/gonum/mat"
 )
 
 type PlayfairSubCommand struct {
@@ -17,7 +16,7 @@ type PlayfairSubCommand struct {
 	key     string
 }
 
-type KeyTable [5][5]rune
+type KeyTable [][]rune
 
 func (cmd *PlayfairSubCommand) Name() string {
 	return "playfair"
@@ -61,6 +60,7 @@ func ShiftTextByDigraph(plainText string, decode bool, key string) string {
 
 	// create key table
 	keyTable := generateKeyTable(key, len(key))
+	fmt.Println("keyTable: %v", keyTable)
 
 	preparedRunes := preparePlainText(plainText)
 	encrypted := encrypt(preparedRunes, keyTable, len(preparedRunes))
@@ -70,28 +70,49 @@ func ShiftTextByDigraph(plainText string, decode bool, key string) string {
 }
 
 func generateKeyTable(key string, keyLength int) KeyTable {
-	kt := mat.NewDense(5, 5, nil)
+	kt := make(KeyTable, 5)
 
-	// add letters of the key to keytable first
-	// for j, r := range key {
-	// 	kt.Set(i, j, keyLetter)
-	// }
+	// make all the rows of table
+	for row := range kt {
+		kt[row] = make([]rune, row)
+	}
 
 	for i := 0; i < 5; i++ {
-		for i := 0; i < 5; i++ {
-			kt.Set(i, j, keyLetter)
+		for j := 0; j < 5; j++ {
+			kt[i] = append(kt[j], 0)
+		}
+	}
+
+	// add letters of the key to keytable first
+	runesLeftInKey := keyLength
+	for i := 0; i < keyLength; i++ {
+		if runesLeftInKey != 0 {
+			for j := 0; j < keyLength; j++ {
+				letter := rune(key[j])
+				kt[i][j] = letter
+				runesLeftInKey = runesLeftInKey - 1
+			}
 		}
 	}
 
 	// then fill the rest of the table with the letters of alphabet in order
 	maxCodePoint := CODE_POINT_A + (26 - (keyLength % 26))
-	tableIndex := 0
-	for i := CODE_POINT_A; i < maxCodePoint; i++ {
-		letter := rune(i)
-		exists := runeExistsInMap(letter, kt)
-		if !exists {
-			kt[tableIndex] = letter
-			tableIndex++
+	// iterate through each row of table
+	for i := 0; i < 5; i++ {
+		rowIndex := 0
+
+		// iterate through letters a-z
+		for j := CODE_POINT_A; j < maxCodePoint; j++ {
+			letter := rune(j)
+			exists := runeExistsInMap(letter, kt)
+			if rowIndex == 5 {
+				continue
+			}
+
+			if !exists && kt[i][rowIndex] == 0 {
+				kt[i][rowIndex] = letter
+				rowIndex++
+			}
 		}
 	}
 
@@ -151,9 +172,11 @@ func encrypt(msg []rune, kt KeyTable, messageLength int) string {
 
 // check if a letter is already present in the keytable
 func runeExistsInMap(letter rune, table KeyTable) bool {
-	for _, value := range table {
-		if value == letter {
-			return true
+	for i := 0; i < 5; i++ {
+		for j := 0; j < 5; j++ {
+			if table[i][j] == letter {
+				return true
+			}
 		}
 	}
 
