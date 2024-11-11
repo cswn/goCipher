@@ -60,9 +60,11 @@ func ShiftTextByDigraph(plainText string, decode bool, key string) string {
 
 	// create key table
 	keyTable := generateKeyTable(key, len(key))
-	fmt.Println("keyTable: %v", keyTable)
 
+	// prepare/pad the plaintext so it's able to be extracted into pairs of letters
 	preparedRunes := preparePlainText(plainText)
+
+	// encrypt
 	encrypted := encrypt(preparedRunes, keyTable, len(preparedRunes))
 	//fmt.Println("encrypted: %v", encrypted)
 
@@ -100,30 +102,44 @@ func generateKeyTable(key string, keyLength int) KeyTable {
 	}
 
 	// then fill the rest of the table with the letters of alphabet in order
-	maxCodePoint := CODE_POINT_A + (26 - (keyLength % 26))
-
 	// iterate through each row of table
 	for i := 0; i < 5; i++ {
 		rowIndex := 0
 
-		// iterate through letters a-z
-		for j := CODE_POINT_A; j < maxCodePoint; j++ {
-			letter := rune(j)
-			exists := runeExistsInMap(letter, kt)
+		// for each row of the table, iterate through letters a-z
+		// max number of iterations should be amount of letters remaining between
+		// code point a and z that havent been accounted for yet by the key
+		//max := CODE_POINT_A + (26 - (keyLength % 26))
+		j := CODE_POINT_A
+		for j < CODE_POINT_Z+1 {
+			// don't go over 5 items per row
 			if rowIndex == 5 {
+				break
+			}
+			// if there is already a rune in place, continue
+			if kt[i][rowIndex] != 0 {
+				rowIndex++
 				continue
 			}
 
-			// fmt.Println("letter", letter)
-			// fmt.Println("rowIndex", rowIndex)
-			// fmt.Println("kt[i][rowIndex]", kt[i][rowIndex])
+			// the letter j (code point 106) should not be included in the key table
+			if j == 106 {
+				j++
+				continue
+			}
+
+			// extract letter and check if it is already in the keytable
+			letter := rune(j)
+			exists := runeExistsInMap(letter, kt)
 
 			// if the letter doesn't already exist in the current row, and there is
 			// no value set yet, set the value to be the letter and go to next position in row
-			if !exists && kt[i][rowIndex] == 0 {
+			if !exists {
 				kt[i][rowIndex] = letter
 				rowIndex++
 			}
+
+			j++
 		}
 	}
 
