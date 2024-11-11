@@ -77,8 +77,12 @@ func generateKeyTable(key string, keyLength int) KeyTable {
 		kt[row] = make([]rune, row)
 	}
 
+	// fill with null values
 	for i := 0; i < 5; i++ {
 		for j := 0; j < 5; j++ {
+			if len(kt[j]) == 5 {
+				continue
+			}
 			kt[i] = append(kt[j], 0)
 		}
 	}
@@ -97,6 +101,7 @@ func generateKeyTable(key string, keyLength int) KeyTable {
 
 	// then fill the rest of the table with the letters of alphabet in order
 	maxCodePoint := CODE_POINT_A + (26 - (keyLength % 26))
+
 	// iterate through each row of table
 	for i := 0; i < 5; i++ {
 		rowIndex := 0
@@ -109,6 +114,12 @@ func generateKeyTable(key string, keyLength int) KeyTable {
 				continue
 			}
 
+			// fmt.Println("letter", letter)
+			// fmt.Println("rowIndex", rowIndex)
+			// fmt.Println("kt[i][rowIndex]", kt[i][rowIndex])
+
+			// if the letter doesn't already exist in the current row, and there is
+			// no value set yet, set the value to be the letter and go to next position in row
 			if !exists && kt[i][rowIndex] == 0 {
 				kt[i][rowIndex] = letter
 				rowIndex++
