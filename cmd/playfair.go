@@ -73,12 +73,15 @@ func generateKeyTable(key string, keyLength int) KeyTable {
 	kt := mat.NewDense(5, 5, nil)
 
 	// add letters of the key to keytable first
-	//for i := 0; i < 6; i++ {
-	//kt[i] = make([]rune, 5)
-	for j, r := range key {
-		kt.Set()
+	// for j, r := range key {
+	// 	kt.Set(i, j, keyLetter)
+	// }
+
+	for i := 0; i < 5; i++ {
+		for i := 0; i < 5; i++ {
+			kt.Set(i, j, keyLetter)
+		}
 	}
-	//}
 
 	// then fill the rest of the table with the letters of alphabet in order
 	maxCodePoint := CODE_POINT_A + (26 - (keyLength % 26))
