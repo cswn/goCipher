@@ -193,19 +193,42 @@ func searchForDigraphInKeyTable(kt KeyTable, a rune, b rune) [4]int {
 }
 
 func encrypt(msg []rune, kt KeyTable, messageLength int) string {
+	new := make([]rune, int(messageLength))
+
 	for i := 0; i < messageLength; i += 2 {
 		digraphRectangle := searchForDigraphInKeyTable(kt, msg[i], msg[i+1])
 		fmt.Println("digraphRectangle:", digraphRectangle)
+
+		c1 := digraphRectangle[0]
+		c2 := digraphRectangle[1]
+		c3 := digraphRectangle[2]
+		c4 := digraphRectangle[3]
+
+		// Apply encryption rules
+		// If both the letters are in the same row:
+		// Take the letter to the right of each one (going back to the leftmost if at the rightmost position).
+		if c1 == c3 {
+			new[i] = kt[c1][(c2+1)%5]
+			new[i+1] = kt[c1][(c4+1)%5]
+		} else if c2 == c4 {
+			// If both the letters are in the same column:
+			// Take the letter below each one (going back to the top if at the bottom).
+			new[i] = kt[(c1+1)%5][c2]
+			new[i+1] = kt[(c3+1)%5][c2]
+		} else { // else, form a rectangle with the two letters and take the letters on the horizontal opposite corner of the rectangle.
+			new[i] = kt[c1][c4]
+			new[i+1] = kt[c3][c2]
+		}
 	}
 
-	// rules for encryption
-	// If both the letters are in the same column:
-	// Take the letter below each one (going back to the top if at the bottom).
-	// If both the letters are in the same row:
-	// Take the letter to the right of each one (going back to the leftmost if at the rightmost position).
-	// else, form a rectangle with the two letters and take the letters on the horizontal opposite corner of the rectangle.
+	s := string(new)
+	var result string
 
-	return "hi"
+	for _, r := range s {
+		result += string(r)
+	}
+
+	return result
 }
 
 // check if a letter is already present in the keytable
