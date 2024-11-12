@@ -8,7 +8,7 @@ type testDataVigenere struct {
 	expectedOutput string
 }
 
-var testDataMap = []testDataVigenere{
+var testDataVigenereMap = []testDataVigenere{
 	{
 		key:            "run",
 		input:          "test string!",
@@ -47,7 +47,7 @@ var testDataMap = []testDataVigenere{
 }
 
 func TestShiftTextByKeywordEncode(t *testing.T) {
-	for _, val := range testDataMap {
+	for _, val := range testDataVigenereMap {
 		msg := ShiftTextByKeyword(val.input, false, val.key)
 		if msg != val.expectedOutput {
 			t.Fatalf(`encode ShiftText("%v") returned %q, should have been "%v"`, val.input, msg, val.expectedOutput)
@@ -56,7 +56,7 @@ func TestShiftTextByKeywordEncode(t *testing.T) {
 }
 
 func TestShiftTextByKeywordDecode(t *testing.T) {
-	for _, val := range testDataMap {
+	for _, val := range testDataVigenereMap {
 		msg := ShiftTextByKeyword(val.expectedOutput, true, val.key)
 		if msg != val.input {
 			t.Fatalf(`decode ShiftText("%v") returned %q, should have been "%v"`, val.expectedOutput, msg, val.input)
