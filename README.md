@@ -59,3 +59,19 @@ Arguments:
 - `-m` The message to encrypt or decrypt. For strings with more than one word, make sure to enclose in quotes.
 - `-k` The key, a string. For strings with more than one word, make sure to enclose in quotes.
 - `-d` (optional) Decrypt. Set this flag (with no arguments) if you want to decrypt instead of encrypt a message.
+
+### `playfair`
+
+This cipher was the first to encrypt letters in pairs in cryptologic history. Its first recorded use was in a document from its inventor, Charles Wheatstone, in 1854. It uses a 5x5 matrix (or key table) containing a key word to encrypt or decrypt a message, digraph (pair of letters) by digraph.
+
+Usage:
+
+```shell
+./goCipher playfair -m "attackatdawn" -k "lorem ipsum"
+```
+
+Arguments:
+
+- `-m` The message to encrypt or decrypt. For strings with more than one word, make sure to enclose in quotes.
+- `-k` The key, a string. For strings with more than one word, make sure to enclose in quotes.
+- `-d` (optional) Decrypt. Set this flag (with no arguments) if you want to decrypt instead of encrypt a message.
