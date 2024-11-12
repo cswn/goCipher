@@ -68,11 +68,7 @@ func ShiftTextByDigraph(plainText string, decode bool, key string) string {
 	// prepare/pad the plaintext so it's able to be extracted into pairs of letters
 	preparedRunes := preparePlainText(plainText)
 
-	if decode {
-		return decrypt(preparedRunes, keyTable, len(preparedRunes))
-	}
-
-	return encrypt(preparedRunes, keyTable, len(preparedRunes))
+	return encrypt(preparedRunes, keyTable, len(preparedRunes), decode)
 }
 
 func generateKeyTable(key string, keyLength int) KeyTable {
@@ -219,7 +215,7 @@ func searchForDigraphInKeyTable(kt KeyTable, a rune, b rune) [4]int {
 	return result
 }
 
-func encrypt(msg []rune, kt KeyTable, messageLength int) string {
+func encrypt(msg []rune, kt KeyTable, messageLength int, decode bool) string {
 	new := make([]rune, int(messageLength))
 
 	for i := 0; i < messageLength; i += 2 {
@@ -230,55 +226,25 @@ func encrypt(msg []rune, kt KeyTable, messageLength int) string {
 		c3 := digraphRectangle[2]
 		c4 := digraphRectangle[3]
 
-		// Apply encryption rules
-		// If both the letters are in the same row:
-		// Take the letter to the right of each one (going back to the leftmost if at the rightmost position).
+		// Apply rules
+		// If both the letters are in the same row
 		if c1 == c3 {
-			new[i] = kt[c1][(c2+1)%5]
-			new[i+1] = kt[c1][(c4+1)%5]
+			if decode {
+				new[i] = kt[c1][(c2+4)%5]
+				new[i+1] = kt[c1][(c4+4)%5]
+			} else {
+				new[i] = kt[c1][(c2+1)%5]
+				new[i+1] = kt[c1][(c4+1)%5]
+			}
 		} else if c2 == c4 {
-			// If both the letters are in the same column:
-			// Take the letter below each one (going back to the top if at the bottom).
-			new[i] = kt[(c1+1)%5][c2]
-			new[i+1] = kt[(c3+1)%5][c2]
-		} else { // else, form a rectangle with the two letters and take the letters on the horizontal opposite corner of the rectangle.
-			new[i] = kt[c1][c4]
-			new[i+1] = kt[c3][c2]
-		}
-	}
-
-	s := string(new)
-	var result string
-
-	for _, r := range s {
-		result += string(r)
-	}
-
-	return result
-}
-
-func decrypt(msg []rune, kt KeyTable, messageLength int) string {
-	new := make([]rune, int(messageLength))
-
-	for i := 0; i < messageLength; i += 2 {
-		digraphRectangle := searchForDigraphInKeyTable(kt, msg[i], msg[i+1])
-
-		c1 := digraphRectangle[0]
-		c2 := digraphRectangle[1]
-		c3 := digraphRectangle[2]
-		c4 := digraphRectangle[3]
-
-		// Apply decryption rules
-		// If both the letters are in the same row:
-		// Take the letter to the left of each one (going back to the rightmost if at the leftmost position).
-		if c1 == c3 {
-			new[i] = kt[c1][(c2+4)%5]
-			new[i+1] = kt[c1][(c4+4)%5]
-		} else if c2 == c4 {
-			// If both the letters are in the same column:
-			// Take the letter above each one (going back to the bottom if at the top).
-			new[i] = kt[(c1+4)%5][c2]
-			new[i+1] = kt[(c3+4)%5][c2]
+			// If both the letters are in the same column
+			if decode {
+				new[i] = kt[(c1+4)%5][c2]
+				new[i+1] = kt[(c3+4)%5][c2]
+			} else {
+				new[i] = kt[(c1+1)%5][c2]
+				new[i+1] = kt[(c3+1)%5][c2]
+			}
 		} else { // else, form a rectangle with the two letters and take the letters on the horizontal opposite corner of the rectangle.
 			new[i] = kt[c1][c4]
 			new[i+1] = kt[c3][c2]
