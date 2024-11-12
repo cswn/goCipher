@@ -8,6 +8,7 @@ import (
 	"unicode"
 
 	"github.com/TwiN/go-color"
+	"github.com/cswn/goCipher/internal"
 )
 
 type CeasarSubCommand struct {
@@ -65,10 +66,10 @@ func ShiftText(plainText string, decode bool, shiftKey int64) string {
 
 			// if the letter's position added to the key goes past the code point for 'z' or 'a',
 			// capture the difference between them and redirect it to the beginning or end of alphabet
-			if newCodePoint > CODE_POINT_Z {
-				newCodePoint = CODE_POINT_A + (newCodePoint - CODE_POINT_Z) - 1
-			} else if newCodePoint < CODE_POINT_A {
-				newCodePoint = CODE_POINT_Z - (CODE_POINT_A - newCodePoint) + 1
+			if newCodePoint > internal.CODE_POINT_Z {
+				newCodePoint = internal.CODE_POINT_A + (newCodePoint - internal.CODE_POINT_Z) - 1
+			} else if newCodePoint < internal.CODE_POINT_A {
+				newCodePoint = internal.CODE_POINT_Z - (internal.CODE_POINT_A - newCodePoint) + 1
 			}
 
 			cipherText += string(rune(newCodePoint))

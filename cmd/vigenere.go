@@ -9,6 +9,7 @@ import (
 	"unicode/utf8"
 
 	"github.com/TwiN/go-color"
+	"github.com/cswn/goCipher/internal"
 )
 
 type VigenereSubCommand struct {
@@ -55,11 +56,11 @@ func (cmd *VigenereSubCommand) Run() {
 // To ensure the key is long enough to provide this for each letter of the plaintext, it is padded by repeating itself until it
 // is at least the length of the plaintext string.
 func ShiftTextByKeyword(plainText string, decode bool, key string) string {
-	var runeCountPlainText = RuneCountInStringLettersOnly(plainText)
+	var runeCountPlainText = internal.RuneCountInStringLettersOnly(plainText)
 
 	// remove whitespaces and non-letter runes from the key
 	key = strings.ReplaceAll(key, " ", "")
-	key = FilterString(key, func(e rune) bool {
+	key = internal.FilterString(key, func(e rune) bool {
 		return unicode.IsLetter(e)
 	})
 
@@ -73,7 +74,7 @@ func ShiftTextByKeyword(plainText string, decode bool, key string) string {
 	var message string
 	var adjustedIndex int = 0
 	for _, letter := range plainText {
-		letterKey := lengthAdjustedKey[adjustedIndex] - byte(CODE_POINT_A)
+		letterKey := lengthAdjustedKey[adjustedIndex] - byte(internal.CODE_POINT_A)
 
 		if !unicode.IsLetter(letter) { // make sure the next letter in the key is used and not skipped over in case of a non-letter
 			message += string(letter)

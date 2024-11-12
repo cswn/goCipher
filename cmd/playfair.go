@@ -8,6 +8,7 @@ import (
 	"unicode"
 
 	"github.com/TwiN/go-color"
+	"github.com/cswn/goCipher/internal"
 )
 
 type PlayfairSubCommand struct {
@@ -55,10 +56,10 @@ func ShiftTextByDigraph(plainText string, decode bool, key string) string {
 	// remove whitespaces and non-letter runes from the key and plainText
 	key = strings.ReplaceAll(key, " ", "")
 	plainText = strings.ReplaceAll(plainText, " ", "")
-	key = FilterString(key, func(e rune) bool {
+	key = internal.FilterString(key, func(e rune) bool {
 		return unicode.IsLetter(e)
 	})
-	plainText = FilterString(plainText, func(e rune) bool {
+	plainText = internal.FilterString(plainText, func(e rune) bool {
 		return unicode.IsLetter(e)
 	})
 
@@ -122,8 +123,8 @@ func generateKeyTable(key string, keyLength int) KeyTable {
 
 		// for each row of the table, iterate through letters a-z
 		// max number of iterations should be amount of letters remaining between
-		j := CODE_POINT_A
-		for j < CODE_POINT_Z+1 {
+		j := internal.CODE_POINT_A
+		for j < internal.CODE_POINT_Z+1 {
 			// don't go over 5 items per row
 			if rowIndex == 5 {
 				break
@@ -193,9 +194,9 @@ func searchForDigraphInKeyTable(kt KeyTable, a rune, b rune) [4]int {
 	var j int
 
 	if a == 'j' {
-		a = CODE_POINT_I
+		a = internal.CODE_POINT_I
 	} else if b == 'j' {
-		b = CODE_POINT_I
+		b = internal.CODE_POINT_I
 	}
 
 	// go through rows
