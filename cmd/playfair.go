@@ -52,14 +52,19 @@ func (cmd *PlayfairSubCommand) Run() {
 }
 
 func ShiftTextByDigraph(plainText string, decode bool, key string) string {
-	// remove whitespaces and non-letter runes from the key
+	// remove whitespaces and non-letter runes from the key and plainText
 	key = strings.ReplaceAll(key, " ", "")
+	plainText = strings.ReplaceAll(plainText, " ", "")
 	key = FilterString(key, func(e rune) bool {
+		return unicode.IsLetter(e)
+	})
+	plainText = FilterString(plainText, func(e rune) bool {
 		return unicode.IsLetter(e)
 	})
 
 	// create key table
 	keyTable := generateKeyTable(key, len(key))
+	fmt.Println(keyTable)
 
 	// prepare/pad the plaintext so it's able to be extracted into pairs of letters
 	preparedRunes := preparePlainText(plainText)
@@ -90,13 +95,27 @@ func generateKeyTable(key string, keyLength int) KeyTable {
 
 	// add letters of the key to keytable first
 	runesLeftInKey := keyLength
+	keyIndex := 0
 	for i := 0; i < keyLength; i++ {
-		if runesLeftInKey != 0 {
-			for j := 0; j < keyLength; j++ {
-				letter := rune(key[j])
+		if runesLeftInKey == 0 {
+			break
+		}
+
+		j := 0
+		for runesLeftInKey > 0 {
+			if j == 5 {
+				break
+			}
+
+			letter := rune(key[keyIndex])
+			exists := runeExistsInMap(letter, kt)
+
+			if !exists {
 				kt[i][j] = letter
 				runesLeftInKey = runesLeftInKey - 1
+				keyIndex++
 			}
+			j++
 		}
 	}
 
@@ -146,7 +165,12 @@ func generateKeyTable(key string, keyLength int) KeyTable {
 func preparePlainText(plainText string) []rune {
 	// make sure no two same letters would be in the same digraph
 	// if they are, pad them with a bogus letter, x
-	for i := 0; i < len(plainText); i += 2 {
+	// first make sure the loop will not go out of range
+	max := len(plainText)
+	if max%2 != 0 {
+		max = len(plainText) - 1
+	}
+	for i := 0; i < max; i += 2 {
 		if plainText[i] == plainText[i+1] {
 			pos := i + 1
 			plainText = plainText[:pos] + "x" + plainText[pos:]
@@ -200,7 +224,6 @@ func encrypt(msg []rune, kt KeyTable, messageLength int) string {
 
 	for i := 0; i < messageLength; i += 2 {
 		digraphRectangle := searchForDigraphInKeyTable(kt, msg[i], msg[i+1])
-		fmt.Println("digraphRectangle:", digraphRectangle)
 
 		c1 := digraphRectangle[0]
 		c2 := digraphRectangle[1]

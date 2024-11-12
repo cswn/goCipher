@@ -42,7 +42,7 @@ var testDataPlayfairMap = []testDataPlayfair{
 	{
 		key:            "lobortis diam",
 		input:          "enim vitae tempus venenatis",
-		expectedOutput: "cpgoyfqddubpuzqxcpcpdqht",
+		expectedOutput: "pbja mbbsh beyait jvgmfdbie",
 	},
 }
 
