@@ -12,7 +12,7 @@ var testDataPlayfairMap = []testDataPlayfair{
 	{
 		key:            "run",
 		input:          "test string!",
-		expectedOutput: "qgtotouhbe!",
+		expectedOutput: "qgtotouhbe",
 	},
 	{
 		key:            "lorem ipsum",

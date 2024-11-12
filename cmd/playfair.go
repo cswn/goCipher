@@ -66,7 +66,6 @@ func ShiftTextByDigraph(plainText string, decode bool, key string) string {
 
 	// encrypt
 	encrypted := encrypt(preparedRunes, keyTable, len(preparedRunes))
-	//fmt.Println("encrypted: %v", encrypted)
 
 	return encrypted
 }
@@ -108,8 +107,6 @@ func generateKeyTable(key string, keyLength int) KeyTable {
 
 		// for each row of the table, iterate through letters a-z
 		// max number of iterations should be amount of letters remaining between
-		// code point a and z that havent been accounted for yet by the key
-		//max := CODE_POINT_A + (26 - (keyLength % 26))
 		j := CODE_POINT_A
 		for j < CODE_POINT_Z+1 {
 			// don't go over 5 items per row
@@ -148,7 +145,13 @@ func generateKeyTable(key string, keyLength int) KeyTable {
 
 func preparePlainText(plainText string) []rune {
 	// make sure no two same letters would be in the same digraph
-	// todo
+	// if they are, pad them with a bogus letter, x
+	for i := 0; i < len(plainText); i += 2 {
+		if plainText[i] == plainText[i+1] {
+			pos := i + 1
+			plainText = plainText[:pos] + "x" + plainText[pos:]
+		}
+	}
 
 	// pad the plaintext if it has an odd number of letters with a z
 	if len(plainText)%2 != 0 {
