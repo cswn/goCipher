@@ -101,9 +101,9 @@ func generateKeyTable(key string, keyLength int) KeyTable {
 			break
 		}
 
-		j := 0
+		keyIndexRelativeToRow := 0
 		for runesLeftInKey > 0 {
-			if j == 5 {
+			if keyIndexRelativeToRow == 5 {
 				break
 			}
 
@@ -111,11 +111,11 @@ func generateKeyTable(key string, keyLength int) KeyTable {
 			exists := runeExistsInMap(letter, kt)
 
 			if !exists {
-				kt[i][j] = letter
-				runesLeftInKey = runesLeftInKey - 1
-				keyIndex++
+				kt[i][keyIndexRelativeToRow] = letter
+				keyIndexRelativeToRow++
 			}
-			j++
+			keyIndex++
+			runesLeftInKey = runesLeftInKey - 1
 		}
 	}
 

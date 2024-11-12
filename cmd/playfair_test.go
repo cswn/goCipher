@@ -22,7 +22,7 @@ var testDataPlayfairMap = []testDataPlayfair{
 	{
 		key:            "maximus",
 		input:          "molestie nunc placerat",
-		expectedOutput: "nppatukdpsshlmbdbudq ",
+		expectedOutput: "anrlfmudrmpsrhxblzmv",
 	},
 	{
 		key:            "scelerisque",
