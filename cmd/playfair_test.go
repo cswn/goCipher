@@ -27,22 +27,22 @@ var testDataPlayfairMap = []testDataPlayfair{
 	{
 		key:            "scelerisque",
 		input:          "nec luctus",
-		expectedOutput: "pcanseuqtr",
+		expectedOutput: "ocerqeobev",
 	},
 	{
 		key:            "semper",
 		input:          "consectetur sodales lectus sem cursus",
-		expectedOutput: "dnsxaduduqsttifqcupadsqtucnbqstqtr",
+		expectedOutput: "bqvambopunsetbfgmehrdqnremcizfrnmv",
 	},
 	{
 		key:            "pellentesque",
 		input:          "quis sem scelerisque",
-		expectedOutput: "rqhtucnrdapatgtrzk",
+		expectedOutput: "uavcqpiudpnlikquql",
 	},
 	{
 		key:            "lobortis diam",
 		input:          "enim vitae tempus venenatis",
-		expectedOutput: "pbja mbbsh beyait jvgmfdbie",
+		expectedOutput: "nwsilcrmhohsqkiwnwnwmrsd",
 	},
 }
 

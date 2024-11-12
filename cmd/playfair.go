@@ -179,7 +179,7 @@ func preparePlainText(plainText string) []rune {
 
 	// pad the plaintext if it has an odd number of letters with a z
 	if len(plainText)%2 != 0 {
-		plainText += "z"
+		plainText += "x"
 	}
 
 	arr := make([]rune, len(plainText))
