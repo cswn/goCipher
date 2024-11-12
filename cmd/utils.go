@@ -6,6 +6,8 @@ import (
 
 const (
 	CODE_POINT_A = 97
+	CODE_POINT_I = 105
+	CODE_POINT_X = 120
 	CODE_POINT_Z = 122
 )
 
