@@ -4,7 +4,7 @@ init:
 	$(GO) mod tidy
 
 build:
-	go build -o ./build/main ./cmd
+	go build -o ./build/goCipher ./cmd
 
 test/unit:
 	go test ./cmd

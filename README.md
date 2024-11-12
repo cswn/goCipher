@@ -14,7 +14,7 @@ Clone the repo: `git clone git@github.com:cswn/goCipher.git`
 
 Enter the directory: `cd goCipher/`
 
-Execute the tool: `./goCipher {subcommand} [ARGUMENTS]` -> see Usage
+Execute the tool: `./build/goCipher {subcommand} [ARGUMENTS]` -> see Usage
 
 ### Source
 
