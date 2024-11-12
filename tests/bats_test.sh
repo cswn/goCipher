@@ -41,6 +41,27 @@ setup
     [[ "$output" == *"Please make sure to pass a message"* ]]
 }
 
+@test "successful execution of playfair with all required valid arguments" {
+    eval "run ./goCipherTest playfair -m hello -k key"
+
+    [[ "$status" -eq 0 ]]
+    [[ "$output" == *"dbnvmi"* ]]
+}
+
+@test "returns without passing message to playfair subcommand" {
+    eval "run ./goCipherTest playfair"
+
+    [[ "$status" -eq 0 ]]
+    [[ "$output" == *"Please make sure to pass a message"* ]]
+}
+
+@test "returns without passing key to playfair subcommand" {
+    eval "run ./goCipherTest playfair -m hello"
+
+    [[ "$status" -eq 0 ]]
+    [[ "$output" == *"Please make sure to pass a key"* ]]
+}
+
 teardown() {
     rm goCipherTest
 }
