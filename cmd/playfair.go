@@ -64,21 +64,24 @@ func ShiftTextByDigraph(plainText string, decode bool, key string) string {
 	})
 
 	// create key table
-	keyTable := generateKeyTable(key, len(key))
+	keyTable := generateKeyTable(key)
 
 	// prepare/pad the plaintext so it's able to be extracted into pairs of letters
 	preparedRunes := preparePlainText(plainText)
 
-	return encrypt(preparedRunes, keyTable, len(preparedRunes), decode)
+	return encrypt(preparedRunes, keyTable, decode)
 }
 
-func generateKeyTable(key string, keyLength int) KeyTable {
+func generateKeyTable(key string) KeyTable {
+	keyLength := len(key)
 	kt := make(KeyTable, 5)
 
 	// make all the rows of table
 	for row := range kt {
 		kt[row] = make([]rune, row)
 	}
+	// note: go 1.23 range with integers
+	// for i := range 5 { }
 
 	// fill with null values
 	for i := 0; i < 5; i++ {
@@ -87,6 +90,7 @@ func generateKeyTable(key string, keyLength int) KeyTable {
 				continue
 			}
 			kt[i] = append(kt[j], 0)
+			// note: x = append(x,0)
 		}
 	}
 
@@ -216,7 +220,8 @@ func searchForDigraphInKeyTable(kt KeyTable, a rune, b rune) [4]int {
 	return result
 }
 
-func encrypt(msg []rune, kt KeyTable, messageLength int, decode bool) string {
+func encrypt(msg []rune, kt KeyTable, decode bool) string {
+	messageLength := len(msg)
 	new := make([]rune, int(messageLength))
 
 	for i := 0; i < messageLength; i += 2 {
