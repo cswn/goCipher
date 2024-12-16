@@ -69,10 +69,10 @@ setup
     [[ "$output" == *"Please make sure to pass a key"* ]]
 }
 
-@test "returns without passing valid one-byte int key to sbx subcommand" {
+@test "returns and fails when passing invalid key to sbx subcommand" {
     eval "run ./goCipherTest sbx -m 61747461636b61746461776e -k a"
 
-    [[ "$status" -eq 1 ]]
+    [[ "$status" -eq 2 ]]
     [[ "$output" == *"parse error"* ]]
 }
 
