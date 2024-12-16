@@ -23,6 +23,7 @@ func init() {
 	subcommands["ceasar"] = &CeasarSubCommand{}
 	subcommands["vigenere"] = &VigenereSubCommand{}
 	subcommands["playfair"] = &PlayfairSubCommand{}
+	subcommands["sbx"] = &SingleByteXorSubCommand{}
 }
 
 func usageForSubCommand(subcommand SubCommand) string {
