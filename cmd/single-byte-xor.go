@@ -6,12 +6,13 @@ import (
 	"os"
 
 	"github.com/TwiN/go-color"
+	"github.com/cswn/goCipher/internal"
 )
 
 type SingleByteXorSubCommand struct {
 	message string
 	decode  bool
-	key     string
+	key     uint
 }
 
 func (cmd *SingleByteXorSubCommand) Name() string {
@@ -19,9 +20,9 @@ func (cmd *SingleByteXorSubCommand) Name() string {
 }
 
 func (cmd *SingleByteXorSubCommand) Flags(flagSet *flag.FlagSet) {
-	flagSet.StringVar(&cmd.message, "m", "", "The message to decode or encode")
+	flagSet.StringVar(&cmd.message, "m", "", "The hexidecimal string to decode or encode")
 	flagSet.BoolVar(&cmd.decode, "d", false, "Decode the message instead of encoding")
-	flagSet.StringVar(&cmd.key, "k", "", "The byte on which to decode and encode the message")
+	flagSet.UintVar(&cmd.key, "k", 0, "The byte on which to decode and encode the message")
 }
 
 func (cmd *SingleByteXorSubCommand) Description() string {
@@ -29,30 +30,38 @@ func (cmd *SingleByteXorSubCommand) Description() string {
 }
 
 func (cmd *SingleByteXorSubCommand) Run() {
-	keyBytes := []byte(cmd.key)
-	plainTextBytes := []byte(cmd.message)
-
 	if cmd.message == "" {
 		fmt.Fprint(os.Stderr, color.Ize(color.Red, "Please make sure to pass a message. \n"))
 		return
 	}
 
-	if len(cmd.key) == 0 {
+	bytes := []byte(cmd.message)
+	var err error
+	if cmd.decode {
+		bytes, err = internal.DecodeHex([]byte(cmd.message))
+		if err != nil {
+			fmt.Fprint(os.Stderr, color.Ize(color.Red, "Please make sure your message is in hexadecimal. \n"))
+			return
+		}
+	}
+	plainTextBytes := []byte(bytes)
+
+	if cmd.key == 0 {
 		fmt.Fprint(os.Stderr, color.Ize(color.Red, "Please make sure to pass a key. \n"))
 		return
 	}
 
-	if len(keyBytes) > 1 {
-		fmt.Fprint(os.Stderr, color.Ize(color.Red, "Please make your key is only one byte long. \n"))
+	if cmd.key > 256 {
+		fmt.Fprint(os.Stderr, color.Ize(color.Red, "Please make your key is no more than one byte long. \n"))
 		return
 	}
 
-	new := XORCipher(plainTextBytes, keyBytes[0])
+	new := XORCipher(plainTextBytes, byte(cmd.key))
 	encodedOrDecoded := "encoded"
 	if cmd.decode {
 		encodedOrDecoded = "decoded"
 	}
-	fmt.Printf("Your %s message is: %s \n", encodedOrDecoded, string(new))
+	fmt.Printf("Your %s message in hexadecimal is: %s \n", encodedOrDecoded, internal.EncodeHex(new))
 }
 
 func XORCipher(bytes []byte, key byte) []byte {
