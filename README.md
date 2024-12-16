@@ -75,3 +75,20 @@ Arguments:
 - `-m` The message to encrypt or decrypt. For strings with more than one word, make sure to enclose in quotes.
 - `-k` The key, a string. For strings with more than one word, make sure to enclose in quotes.
 - `-d` (optional) Decrypt. Set this flag (with no arguments) if you want to decrypt instead of encrypt a message.
+
+### `single-byte-xor`
+
+This cipher simply does an XOR (exclusive OR) operation on every byte of the plaintext with the key, a single byte. This is a common
+logical operation used in modern encryption, used here as a simple cipher.
+
+Usage:
+
+```shell
+./goCipher sbx -m "attackatdawn" -k 96
+```
+
+Arguments:
+
+- `-m` The message to encrypt or decrypt. This should be in hexadecimal format (base 16).
+- `-k` The key, a single byte. This should be an unsigned int between 1-256.
+- `-d` (optional) Decrypt. Set this flag (with no arguments) if you want to decrypt instead of encrypt a message.

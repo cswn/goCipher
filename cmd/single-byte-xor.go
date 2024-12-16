@@ -16,13 +16,13 @@ type SingleByteXorSubCommand struct {
 }
 
 func (cmd *SingleByteXorSubCommand) Name() string {
-	return "single byte xor"
+	return "sbx"
 }
 
 func (cmd *SingleByteXorSubCommand) Flags(flagSet *flag.FlagSet) {
 	flagSet.StringVar(&cmd.message, "m", "", "The hexidecimal string to decode or encode")
 	flagSet.BoolVar(&cmd.decode, "d", false, "Decode the message instead of encoding")
-	flagSet.UintVar(&cmd.key, "k", 0, "The byte on which to decode and encode the message")
+	flagSet.UintVar(&cmd.key, "k", 0, "The byte (an int from 1-256) on which to decode and encode the message")
 }
 
 func (cmd *SingleByteXorSubCommand) Description() string {
