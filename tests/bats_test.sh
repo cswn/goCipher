@@ -77,10 +77,10 @@ setup
 }
 
 @test "successful execution of sbx with all required valid arguments" {
-    eval "run ./goCipherTest sbx -m hello -k 54"
+    eval "run ./goCipherTest sbx -m 68656c6c6f -k 54"
 
     [[ "$status" -eq 0 ]]
-    [[ "$output" == *"dbnvmi"* ]]
+    [[ "$output" == *"5e535a5a59"* ]]
 }
 
 teardown() {
