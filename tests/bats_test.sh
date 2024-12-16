@@ -72,8 +72,8 @@ setup
 @test "returns without passing valid one-byte int key to sbx subcommand" {
     eval "run ./goCipherTest sbx -m 61747461636b61746461776e -k a"
 
-    [[ "$status" -eq 0 ]]
-    [[ "$output" == *"Please make your key is no more than one byte long."* ]]
+    [[ "$status" -eq 1 ]]
+    [[ "$output" == *"parse error"* ]]
 }
 
 @test "successful execution of sbx with all required valid arguments" {
