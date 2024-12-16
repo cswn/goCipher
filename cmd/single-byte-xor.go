@@ -35,16 +35,11 @@ func (cmd *SingleByteXorSubCommand) Run() {
 		return
 	}
 
-	bytes := []byte(cmd.message)
-	var err error
-	if cmd.decode {
-		bytes, err = internal.DecodeHex([]byte(cmd.message))
-		if err != nil {
-			fmt.Fprint(os.Stderr, color.Ize(color.Red, "Please make sure your message is in hexadecimal. \n"))
-			return
-		}
+	_, err := internal.DecodeHex([]byte(cmd.message))
+	if err != nil {
+		fmt.Fprint(os.Stderr, color.Ize(color.Red, "Please make sure your message is in hexadecimal. \n"))
+		return
 	}
-	plainTextBytes := []byte(bytes)
 
 	if cmd.key == 0 {
 		fmt.Fprint(os.Stderr, color.Ize(color.Red, "Please make sure to pass a key. \n"))
@@ -56,12 +51,22 @@ func (cmd *SingleByteXorSubCommand) Run() {
 		return
 	}
 
-	new := XORCipher(plainTextBytes, byte(cmd.key))
+	new := SingleByteXor(cmd.message, cmd.key)
 	encodedOrDecoded := "encoded"
 	if cmd.decode {
 		encodedOrDecoded = "decoded"
 	}
-	fmt.Printf("Your %s message in hexadecimal is: %s \n", encodedOrDecoded, internal.EncodeHex(new))
+	fmt.Printf("Your %s message in hexadecimal is: %s \n", encodedOrDecoded, new)
+}
+
+func SingleByteXor(msg string, key uint) string {
+	decoded, _ := internal.DecodeHex([]byte(msg))
+
+	bytes := []byte(decoded)
+	new := XORCipher(bytes, byte(key))
+	hexResult := string(internal.EncodeHex(new))
+
+	return hexResult
 }
 
 func XORCipher(bytes []byte, key byte) []byte {

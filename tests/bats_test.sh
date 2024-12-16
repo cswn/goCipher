@@ -62,6 +62,27 @@ setup
     [[ "$output" == *"Please make sure to pass a key"* ]]
 }
 
+@test "returns without passing key to sbx subcommand" {
+    eval "run ./goCipherTest sbx -m 61747461636b61746461776e"
+
+    [[ "$status" -eq 0 ]]
+    [[ "$output" == *"Please make sure to pass a key"* ]]
+}
+
+@test "returns without passing valid one-byte int key to sbx subcommand" {
+    eval "run ./goCipherTest sbx -m 61747461636b61746461776e -k a"
+
+    [[ "$status" -eq 0 ]]
+    [[ "$output" == *"Please make your key is no more than one byte long."* ]]
+}
+
+@test "successful execution of sbx with all required valid arguments" {
+    eval "run ./goCipherTest sbx -m hello -k 54"
+
+    [[ "$status" -eq 0 ]]
+    [[ "$output" == *"dbnvmi"* ]]
+}
+
 teardown() {
     rm goCipherTest
 }
