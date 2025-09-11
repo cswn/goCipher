@@ -22,6 +22,8 @@ var subcommands map[string]SubCommand = make(map[string]SubCommand)
 func init() {
 	subcommands["ceasar"] = &CeasarSubCommand{}
 	subcommands["vigenere"] = &VigenereSubCommand{}
+	subcommands["playfair"] = &PlayfairSubCommand{}
+	subcommands["sbx"] = &SingleByteXorSubCommand{}
 }
 
 func usageForSubCommand(subcommand SubCommand) string {

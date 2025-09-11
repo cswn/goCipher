@@ -1,11 +1,14 @@
-package cmd
+package internal
 
 import (
+	"encoding/hex"
 	"unicode"
 )
 
 const (
 	CODE_POINT_A = 97
+	CODE_POINT_I = 105
+	CODE_POINT_X = 120
 	CODE_POINT_Z = 122
 )
 
@@ -33,4 +36,21 @@ func RuneCountInStringLettersOnly(text string) int {
 	}
 
 	return totalRuneCount
+}
+
+func EncodeHex(src []byte) []byte {
+	dst := make([]byte, hex.EncodedLen(len(src)))
+	hex.Encode(dst, src)
+
+	return dst
+}
+
+func DecodeHex(src []byte) ([]byte, error) {
+	dst := make([]byte, hex.DecodedLen(len(src)))
+	_, err := hex.Decode(dst, src)
+	if err != nil {
+		return nil, err
+	}
+
+	return dst, nil
 }

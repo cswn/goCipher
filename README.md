@@ -14,7 +14,7 @@ Clone the repo: `git clone git@github.com:cswn/goCipher.git`
 
 Enter the directory: `cd goCipher/`
 
-Execute the tool: `./goCipher {subcommand} [ARGUMENTS]` -> see Usage
+Execute the tool: `./build/goCipher {subcommand} [ARGUMENTS]` -> see Usage
 
 ### Source
 
@@ -58,4 +58,37 @@ Arguments:
 
 - `-m` The message to encrypt or decrypt. For strings with more than one word, make sure to enclose in quotes.
 - `-k` The key, a string. For strings with more than one word, make sure to enclose in quotes.
+- `-d` (optional) Decrypt. Set this flag (with no arguments) if you want to decrypt instead of encrypt a message.
+
+### `playfair`
+
+This cipher was the first to encrypt letters in pairs in cryptologic history. Its first recorded use was in a document from its inventor, Charles Wheatstone, in 1854. It uses a 5x5 matrix (or key table) containing a key word to encrypt or decrypt a message, digraph (pair of letters) by digraph.
+
+Usage:
+
+```shell
+./goCipher playfair -m "attackatdawn" -k "lorem ipsum"
+```
+
+Arguments:
+
+- `-m` The message to encrypt or decrypt. For strings with more than one word, make sure to enclose in quotes.
+- `-k` The key, a string. For strings with more than one word, make sure to enclose in quotes.
+- `-d` (optional) Decrypt. Set this flag (with no arguments) if you want to decrypt instead of encrypt a message.
+
+### `single-byte-xor`
+
+This cipher simply does an XOR (exclusive OR) operation on every byte of the plaintext with the key, a single byte. This is a common
+logical operation used in modern encryption, used here as a simple cipher.
+
+Usage:
+
+```shell
+./goCipher sbx -m "attackatdawn" -k 96
+```
+
+Arguments:
+
+- `-m` The message to encrypt or decrypt. This should be in hexadecimal format (base 16).
+- `-k` The key, a single byte. This should be an unsigned int between 1-256.
 - `-d` (optional) Decrypt. Set this flag (with no arguments) if you want to decrypt instead of encrypt a message.

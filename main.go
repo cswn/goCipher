@@ -11,8 +11,12 @@ Subcommands are:
 		The famous ceasar cipher, a simple alphabetic shift cipher.
 	vigenere
 		The classic Vigenère cipher, a polyalphabetic cipher that used a key and a tabula recta.
+	playfair
+		A polygraphic substitution cipher, which encrypts digraphs instead of single letters.
+	single byte xor
+		A simple cipher done by XOR operation on each byte of the plaintext with a single-byte key.
 
-If you choose to run the subcommand without its required arguments, the default values will be taken.
+If you choose to run the subcommand without its optional arguments, the default values will be taken.
 */
 package main
 
