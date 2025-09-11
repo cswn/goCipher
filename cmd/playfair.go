@@ -7,7 +7,6 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/TwiN/go-color"
 	"github.com/cswn/goCipher/internal"
 )
 
@@ -35,12 +34,12 @@ func (cmd *PlayfairSubCommand) Description() string {
 
 func (cmd *PlayfairSubCommand) Run() {
 	if cmd.message == "" {
-		fmt.Fprint(os.Stderr, color.Ize(color.Red, "Please make sure to pass a message. \n"))
+		fmt.Fprint(os.Stderr, "Please make sure to pass a message. \n")
 		return
 	}
 
 	if cmd.key == "" {
-		fmt.Fprint(os.Stderr, color.Ize(color.Red, "Please make sure to pass a key. \n"))
+		fmt.Fprint(os.Stderr, "Please make sure to pass a key. \n")
 		return
 	}
 

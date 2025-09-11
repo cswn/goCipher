@@ -5,11 +5,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
-
-	"github.com/TwiN/go-color"
 )
 
-// SubCommand represents the behavior that all subcommands must implement.
 type SubCommand interface {
 	Name() string
 	Flags(*flag.FlagSet)
@@ -27,7 +24,7 @@ func init() {
 }
 
 func usageForSubCommand(subcommand SubCommand) string {
-	usage := "    " + (color.InBlue(subcommand.Name()))
+	usage := "    " + subcommand.Name()
 	usage += fmt.Sprintf("\n      %s\n", subcommand.Description())
 	return usage
 }
@@ -46,7 +43,7 @@ func Main() error {
 
 	if len(args) == 1 {
 		fmt.Fprintf(os.Stderr, "%s\n", usage())
-		return errors.New(color.InRed("you must provide a valid subcommand"))
+		return errors.New("you must provide a valid subcommand")
 	}
 
 	subcommand := args[1]
@@ -59,14 +56,14 @@ func Main() error {
 	cmd, ok := subcommands[subcommand]
 	if !ok {
 		fmt.Fprintf(os.Stderr, "%s\n", usage())
-		return errors.New(color.InRed("you must provide a valid subcommand"))
+		return errors.New("you must provide a valid subcommand")
 	}
 
 	flagSet := flag.NewFlagSet(cmd.Name(), flag.ExitOnError)
 	cmd.Flags(flagSet)
 	err := flagSet.Parse(args[2:])
 	if err != nil {
-		return errors.New(color.InRed("there was an error: " + err.Error()))
+		return errors.New("there was an error: " + err.Error())
 	}
 
 	cmd.Run()

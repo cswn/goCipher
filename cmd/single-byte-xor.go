@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/TwiN/go-color"
 	"github.com/cswn/goCipher/internal"
 )
 
@@ -31,23 +30,23 @@ func (cmd *SingleByteXorSubCommand) Description() string {
 
 func (cmd *SingleByteXorSubCommand) Run() {
 	if cmd.message == "" {
-		fmt.Fprint(os.Stderr, color.Ize(color.Red, "Please make sure to pass a message. \n"))
+		fmt.Fprint(os.Stderr, "Please make sure to pass a message. \n")
 		return
 	}
 
 	_, err := internal.DecodeHex([]byte(cmd.message))
 	if err != nil {
-		fmt.Fprint(os.Stderr, color.Ize(color.Red, "Please make sure your message is in hexadecimal. \n"))
+		fmt.Fprint(os.Stderr, "Please make sure your message is in hexadecimal. \n")
 		return
 	}
 
 	if cmd.key == 0 {
-		fmt.Fprint(os.Stderr, color.Ize(color.Red, "Please make sure to pass a key. \n"))
+		fmt.Fprint(os.Stderr, "Please make sure to pass a key. \n")
 		return
 	}
 
 	if cmd.key > 256 {
-		fmt.Fprint(os.Stderr, color.Ize(color.Red, "Please make your key is no more than one byte long. \n"))
+		fmt.Fprint(os.Stderr, "Please make your key is no more than one byte long. \n")
 		return
 	}
 
