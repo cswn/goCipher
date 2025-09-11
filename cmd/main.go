@@ -21,6 +21,7 @@ func init() {
 	subcommands["vigenere"] = &VigenereSubCommand{}
 	subcommands["playfair"] = &PlayfairSubCommand{}
 	subcommands["sbx"] = &SingleByteXorSubCommand{}
+	subcommands["columnar"] = &ColumnarSubCommand{}
 }
 
 func usageForSubCommand(subcommand SubCommand) string {
