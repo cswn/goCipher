@@ -206,10 +206,11 @@ func searchForDigraphInKeyTable(kt KeyTable, a rune, b rune) [4]int {
 	for i = 0; i < 5; i++ {
 		// go through columns
 		for j = 0; j < 5; j++ {
-			if kt[i][j] == a {
+			switch kt[i][j] {
+			case a:
 				result[0] = i
 				result[1] = j
-			} else if kt[i][j] == b {
+			case b:
 				result[2] = i
 				result[3] = j
 			}

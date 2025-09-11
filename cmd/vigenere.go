@@ -71,7 +71,7 @@ func ShiftTextByKeyword(plainText string, decode bool, key string) string {
 
 	// call ShiftText except "shiftKey" is the rune number of each letter
 	var message string
-	var adjustedIndex int = 0
+	var adjustedIndex = 0
 	for _, letter := range plainText {
 		letterKey := lengthAdjustedKey[adjustedIndex] - byte(internal.CODE_POINT_A)
 

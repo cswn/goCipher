@@ -61,7 +61,7 @@ func ShiftText(plainText string, decode bool, shiftKey int64) string {
 		} else {
 			// normalize the key to shift by w/ modulo 26
 			shiftKey = shiftKey % 26
-			var newCodePoint int64 = int64(letter) + shiftKey
+			var newCodePoint = int64(letter) + shiftKey
 
 			// if the letter's position added to the key goes past the code point for 'z' or 'a',
 			// capture the difference between them and redirect it to the beginning or end of alphabet
