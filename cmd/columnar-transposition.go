@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"slices"
 	"unicode"
 
 	"github.com/cswn/goCipher/internal"
@@ -15,8 +16,6 @@ type ColumnarSubCommand struct {
 	decode  bool
 	key     string
 }
-
-type Matrix [][]rune
 
 func (cmd *ColumnarSubCommand) Name() string {
 	return "columnar"
@@ -62,21 +61,45 @@ func TransposeText(plainText string, decode bool, key string) string {
 	// create key table
 	runes := []rune(plainText)
 
-	return encryptTransposition(key, runes, decode)
+	return encryptTransposition([]rune(key), runes, decode)
 }
 
-func encryptTransposition(key string, msg []rune, decode bool) string {
+func encryptTransposition(key []rune, msg []rune, decode bool) string {
+	var ct []rune
 	col := len(key)
 	floatRows := float64(len(msg)) / float64(col)
-	maxRows := int(math.Abs(floatRows))
+	maxRows := int(math.Ceil(floatRows))
 
-	result := msg
+	// sort the msg slice to use as our key
+	sortedKey := append([]rune(nil), key...)
+	slices.Sort(sortedKey)
 
-	// pad end of runes
-	fill := (maxRows * col) - len(msg)
-	for i := 0; i < fill; i++ {
-		result = append(result, 95)
+	if !decode {
+		// pad end of runes
+		fill := (maxRows * col) - len(msg)
+		for range fill {
+			msg = append(msg, 95)
+		}
+
+		// build matrix
+		var matrix [][]rune
+		for i := 0; i < len(msg); i += col {
+			endIndex := i + col
+			matrix = append(matrix, msg[i:endIndex])
+		}
+
+		ki := 0
+		for range col {
+			currIndex := slices.Index(key, sortedKey[ki])
+			for _, row := range matrix {
+				ct = append(ct, row[currIndex])
+			}
+			ki++
+		}
+
+		return string(ct)
+	} else {
+		fmt.Println("can't decode yet")
+		return ""
 	}
-
-	return string(result)
 }
