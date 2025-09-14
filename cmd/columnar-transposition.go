@@ -58,10 +58,7 @@ func TransposeText(plainText string, decode bool, key string) string {
 		return unicode.IsLetter(e) || unicode.IsSpace(e)
 	})
 
-	// create key table
-	runes := []rune(plainText)
-
-	return encryptTransposition([]rune(key), runes, decode)
+	return encryptTransposition([]rune(key), []rune(plainText), decode)
 }
 
 func encryptTransposition(key []rune, msg []rune, decode bool) string {
