@@ -68,7 +68,7 @@ func ShiftTextByDigraph(plainText string, decode bool, key string) string {
 	// prepare/pad the plaintext so it's able to be extracted into pairs of letters
 	preparedRunes := preparePlainText(plainText)
 
-	return encrypt(preparedRunes, keyTable, decode)
+	return encryptPlayfair(preparedRunes, keyTable, decode)
 }
 
 func generateKeyTable(key string) KeyTable {
@@ -220,7 +220,7 @@ func searchForDigraphInKeyTable(kt KeyTable, a rune, b rune) [4]int {
 	return result
 }
 
-func encrypt(msg []rune, kt KeyTable, decode bool) string {
+func encryptPlayfair(msg []rune, kt KeyTable, decode bool) string {
 	messageLength := len(msg)
 	new := make([]rune, int(messageLength))
 
